@@ -1,13 +1,60 @@
 ﻿#include "board.h"
 #include <iostream>
 #include <set>
-
+#include <stdio.h>
+#include <vector>
+#pragma warning (disable : 4996)
 inline bool valid(int x, int y)
 {
 	if ((x >= 0) && (y >= 0) && (x <= 7) && (y <= 7))
 		return true;
 	else
 		return false;
+}
+
+board::board(std::string filepath): P{0}, T{nullptr}
+{
+	FILE* pFile = fopen(R"(C:\Users\Osama\Documents\PegSolg.txt)", "r");
+	if (pFile == nullptr)
+	{
+		cout << "File can't be loaded ERROR";
+		return;
+	}
+	std::cout << "Loading  Data from game..." << std::endl;
+	string str;
+	vector<short> v;
+	while (true) {
+		str += static_cast<char>(fgetc(pFile));
+		str += static_cast<char>(fgetc(pFile));
+		if (str == "-1")
+		{
+			v.push_back(-1);
+			str = "";
+		}
+		else if (str == " 1")
+		{
+			v.push_back(1);
+			str = "";
+		}
+		else if (str == " 0")
+		{
+			v.push_back(0);
+			str = "";
+		}
+		else if (str == " \n")
+			str = "";
+		else
+			break;
+	}
+	fclose(pFile);
+	for (int i = 0; i < 7; i++)
+	{
+		for (int j = 0; j < 7; j++)
+		{
+			P[i][j] = v[i * 7 + j];
+			cout << P[i][j] << " ";
+		}
+	}
 }
 
 board::board() : P{
@@ -25,7 +72,7 @@ board::board() : P{
 		{
 			if ((P[i][j] == 1))
 			{
-				T[i][j] = &piece(std::make_pair(i + 1, j + 1));
+				T[i][j] = new piece(std::make_pair(i + 1, j + 1));
 			}
 			else
 				T[i][j]=nullptr;
@@ -115,12 +162,9 @@ bool board::move(int_pair s, int_pair f)
 		P[s.first-1][s.second-1]=0;
 		P[f.first-1][f.second-1]=1;
 		T[f.first-1][f.second-1]= T[s.first - 1][s.second - 1];
-		//T[f.first-1][f.second-1]->cord = T[s.first - 1][s.second - 1]->cord;
 		T[f.first - 1][f.second - 1]->cord=f;
-		T[s.first - 1][s.second - 1]->cord=std::make_pair(-1,-1);
+		//T[s.first - 1][s.second - 1]->cord=std::make_pair(-1,-1);
 		T[s.first - 1][s.second - 1]=nullptr;
-		T[s.first ][s.second]=nullptr;
-		
 		return true;
 	}
 	return false;
@@ -133,37 +177,94 @@ std::set<std::pair<int, int>> board::valid_movs(int_pair s)
 	int y=s.second-1;
 	if((P[x+1][y]==1)&& (P[x+2][y] ==0 )&&(x+2)<7)
 		sp.insert(std::make_pair(x+2+1,y+1));
-	if ((P[x - 1][y] == 1) && (P[x - 2][y ] == 0))
+	if ((P[x - 1][y] == 1) && (P[x - 2][y ] == 0)&&(x-1)>0)
 		sp.insert(std::make_pair(x-2+1 , y+1));
-	if ((P[x][y - 1] == 1) && (P[x][y - 2] == 0))
+	if ((P[x][y - 1] == 1) && (P[x][y - 2] == 0)&&y-1>0)
 		sp.insert(std::make_pair(x +1, y - 2+1));
-	if ((P[x][y + 1] == 1) && (P[x][y + 2] == 0))
+	if ((P[x][y + 1] == 1) && (P[x][y + 2] == 0)&&y+2<7)
 		sp.insert(std::make_pair(x +1, y + 2+1));
-// 	for (auto x : sp)
-// {
-// 	std::cout << '(' << s.first << ',' << char(s.second+65) << ')'<<"==========>"<<
-// 		'(' << x.first << ',' << char(x.second + 65) << ')' << std::endl;
-// }
 	return sp;
 }
 
-bool board::GameOver()
-{
-	set<pair<int,int>> sp;
-	int n=0;
-	for (int i=0;i<7;i++)
-	{
-		for(int j=0;j<7;j++)
-		{
-			if(P[i][j]==1)
-			{
-				auto vm= valid_movs(std::make_pair(i,j));
-				for(auto x:vm)
-				{
-					sp.insert(x);
-				}
-			}
-		}
-	}
-	return sp.empty();
-}
+//bool board::GameOver()
+//{
+//	set<pair<int,int>> sp;
+//	int n=0;
+//	for (int i=0;i<7;i++)
+//	{
+//		for(int j=0;j<7;j++)
+//		{
+//			if(P[i][j]==1)
+//			{
+//				auto vm= valid_movs(std::make_pair(i+1,j+1));
+//				for(auto x:vm)
+//				{
+//					sp.insert(x);
+//				}
+//			}
+//		}
+//	}
+//	return sp.empty();
+//}
+//void board::save()
+//{
+//	FILE* pFile  = fopen("C:\\Users\\Osama\\Documents\\PegSol.txt", "w");
+//	std::cout << "Saving Data..."<<endl;
+//	for (int i = 0; i < 7; i++) {
+//		for (int j = 0; j < 7; j++) {
+//			if ((j == 0)&&(i!=0))
+//				fprintf(pFile, " \n");
+//		//		outputfile<<'\n';
+//			//outputfile << P[i][j] << ",";//saves values to file;
+//			fprintf(pFile, "%2d", P[i][j]);
+//		}
+//	}
+//	//outputfile.close();
+//	fclose(pFile);
+//	}
+//void board::load()
+//{
+//	FILE* pFile = fopen(R"(C:\Users\Osama\Documents\PegSol.txt)", "r");
+//	if (pFile == nullptr)
+//	{
+//		cout << "File can't be loaded ERROR";
+//		return;
+//	}
+//		std::cout << "Loading  Data..."<<std::endl;
+//	string str;
+//	string raw;
+//	vector<short> v;
+//	while (true) {
+//		str+= static_cast<char>(fgetc(pFile));
+//		str+= static_cast<char>(fgetc(pFile));
+//		if(str=="-1")
+//		{
+//			v.push_back(-1);
+//			str="";
+//		}
+//		else if(str==" 1")
+//		{
+//			v.push_back(1);
+//			str = "";
+//		}
+//		else if(str==" 0")
+//		{
+//			v.push_back(0);
+//			str = "";
+//		}
+//		else if(str==" \n")
+//			str="";
+//		else
+//			break;
+//	}
+//	fclose(pFile);
+//	int Pp[7][7];
+//	for(int i=0;i<7;i++)
+//	{
+//		for (int j=0;j<7;j++)
+//		{
+//			Pp[i][j]=v[i*7+j];
+//			cout<<Pp[i][j]<<" ";
+//		}
+//	}
+//}
