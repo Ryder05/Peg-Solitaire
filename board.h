@@ -9,11 +9,9 @@ private:
 	piece* T[7][7] ;//matrice des peice
 	friend class Game;
 public:
-	bool valid(int x, int y);
 	board(std::string filepath);
 	board();
 	void board_display();
 	set<std::pair<int, int>	> valid_movs(int_pair s);
 	bool move(int_pair s, int_pair f);
-	bool GameOver();
 };

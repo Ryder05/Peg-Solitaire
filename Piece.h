@@ -7,6 +7,7 @@ class piece
 private:
 	int_pair cord;
 	friend class board;
+	friend class Game;
 
 public:
 	piece(int_pair c);
