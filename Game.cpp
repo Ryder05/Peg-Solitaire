@@ -148,7 +148,7 @@ board Game::load()
 	string filePath;
 	cout << "Enter your Game name to load the game " << endl;
 	getline(cin, filePath);
-	filePath = "C:\\Users\\Osama\\Documents\\Ensi Solitaire" + filePath + ".txt";
+	filePath = "C:\\Users\\Osama\\Documents\\Ensi Solitaire\\" + filePath + ".txt";
 	return board(filePath);
 }
 bool Game::GameOver()

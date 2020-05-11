@@ -13,7 +13,7 @@ void end()
 }
 void header()
 {
-	system("color A");
+	//system("color A");
 
 	cout<<R"( _       __     __                             ______          
 | |     / ___  / _________  ____ ___  ___     /_  ______     _ 

@@ -1,28 +1,36 @@
 ﻿#include "board.h"
+#include <fstream>
 #include <windows.h>
 #include <shlobj.h>
 #include <iostream>
 #include <set>
-#include <stdio.h>
+#include <ostream>
 #include <vector>
 #pragma warning (disable : 4996)
 
 board::board(std::string filepath): P{0}, T{nullptr}
 {
 	//const char* cstr = filepath.c_str();
-	FILE* pFile = fopen(filepath , "r");
-	if (pFile == nullptr)
+	//FILE* pFile = fopen(filepath , "r");
+	std::fstream pFile(filepath);
+	/*if (pFile == nullptr)
 	{
 		cout << "File can't be loaded ERROR";
 		return;
-	}
+	}*/
 	string str;
 	std::cout << "Loading  Data from game..." << std::endl;
 	vector<short> v;
 	int score=0;
-	while (true) {
-		str += static_cast<char>(fgetc(pFile));
-		str += static_cast<char>(fgetc(pFile));
+	char c;
+	while (!pFile.eof()) {
+	//	str += static_cast<char>(fgetc(pFile));
+		//str+=dynamic_cast<char>(pFile.get(c));
+		pFile.get(c);
+		str+= static_cast<char>(c);
+		pFile.get(c);
+		str+=c;
+		//str += static_cast<char>(fgetc(pFile));
 		if (str == "-1")
 		{
 			v.push_back(-1);
@@ -45,7 +53,8 @@ board::board(std::string filepath): P{0}, T{nullptr}
 			break;
 	}
 	score--;
-	fclose(pFile);
+	//fclose(pFile);
+	pFile.close();
 	for (int i = 0; i < 7; i++)
 	{
 		for (int j = 0; j < 7; j++)
