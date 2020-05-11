@@ -1,4 +1,6 @@
 ﻿#include "board.h"
+#include <windows.h>
+#include <shlobj.h>
 #include <iostream>
 #include <set>
 #include <stdio.h>
@@ -7,15 +9,17 @@
 
 board::board(std::string filepath): P{0}, T{nullptr}
 {
-	FILE* pFile = fopen(R"(C:\Users\Osama\Documents\PegSolg.txt)", "r");
+	//const char* cstr = filepath.c_str();
+	FILE* pFile = fopen(filepath , "r");
 	if (pFile == nullptr)
 	{
 		cout << "File can't be loaded ERROR";
 		return;
 	}
-	std::cout << "Loading  Data from game..." << std::endl;
 	string str;
+	std::cout << "Loading  Data from game..." << std::endl;
 	vector<short> v;
+	int score=0;
 	while (true) {
 		str += static_cast<char>(fgetc(pFile));
 		str += static_cast<char>(fgetc(pFile));
@@ -33,12 +37,14 @@ board::board(std::string filepath): P{0}, T{nullptr}
 		{
 			v.push_back(0);
 			str = "";
+			score++;
 		}
 		else if (str == " \n")
 			str = "";
 		else
 			break;
 	}
+	score--;
 	fclose(pFile);
 	for (int i = 0; i < 7; i++)
 	{
@@ -78,6 +84,20 @@ board::board() : P{
 	}
 }
 
+int board::getScore()
+{
+	int n=0;
+	for (int i = 0; i < 7; i++)
+	{
+		for (int j = 0; j < 7; j++)
+		{
+
+			if(P[i][j]==0)
+				n++;
+		}
+	}
+	return n--;
+}
 void board::board_display()
 {
 	cout << endl << endl;

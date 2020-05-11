@@ -11,6 +11,7 @@ private:
 public:
 	board(std::string filepath);
 	board();
+	int getScore();
 	void board_display();
 	set<std::pair<int, int>	> valid_movs(int_pair s);
 	bool move(int_pair s, int_pair f);

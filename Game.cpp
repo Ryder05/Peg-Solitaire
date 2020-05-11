@@ -1,5 +1,8 @@
 #include "Game.h"
 #include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <direct.h>
 //Game::Game(board b):b(){}
 std::tuple<int_pair, int_pair> Game::Extract(string str)
 {
@@ -106,24 +109,47 @@ void Game::Undo()
 	Play.pop();
 	Score--;
 }
+//void Game::save()
+//{
+////	cout<<"Enter your Game name "<<endl;
+////	getline(cin,lg);
+//	string lg="hello";
+//	FILE* pFile = fopen(R"(C:\Users\Osama\\Documents\PegSolg.txt)", "w");
+//	std::cout << "Saving Data Game...";
+//	for (int i = 0; i < 7; i++) {
+//		for (int j = 0; j < 7; j++) {
+//			if ((j == 0) && (i != 0))
+//				fprintf(pFile, " \n");
+//			fprintf(pFile, "%2d", b.P[i][j]);
+//		}
+//	}
+//	fclose(pFile);}
 void Game::save()
 {
-//	cout<<"Enter your Game name "<<endl;
-//	getline(cin,lg);
-	FILE* pFile = fopen(R"(C:\Users\Osama\\Documents\PegSolg.txt)", "w");
-	std::cout << "Saving Data Game...";
+	string filePath;
+	ofstream pFile;
+	cout<<"Enter your Game name "<<endl;
+	getline(cin,filePath);
+	_mkdir("C:\\Users\\Osama\\Documents\\Ensi Solitaire");
+	filePath="C:\\Users\\Osama\\Documents\\Ensi Solitaire\\"+ filePath +".txt";
+	pFile.open(filePath);
 	for (int i = 0; i < 7; i++) {
 		for (int j = 0; j < 7; j++) {
 			if ((j == 0) && (i != 0))
-				fprintf(pFile, " \n");
-			fprintf(pFile, "%2d", b.P[i][j]);
+				pFile<<" \n";
+			pFile<<setw(2)<< b.P[i][j];
 		}
 	}
-	fclose(pFile);
+	pFile.close();
+	std::cout << "Saving Data Game...";
 }
 board Game::load()
 {
-	return board(R"(C:\Users\Osama\Documents\PegSolg.txt)");
+	string filePath;
+	cout << "Enter your Game name to load the game " << endl;
+	getline(cin, filePath);
+	filePath = "C:\\Users\\Osama\\Documents\\Ensi Solitaire" + filePath + ".txt";
+	return board(filePath);
 }
 bool Game::GameOver()
 {

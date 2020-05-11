@@ -11,18 +11,21 @@ typedef std::pair<int, int> int_pair;
 class board;
 class Game
 {
-    int Score=0;
 	stack<std::tuple<int_pair, int_pair>> Play;
 	friend class board;
+    int Score=0;
 public:
 	board b;
-	//Game(board b);
 	std::tuple<int_pair, int_pair> Extract(string str);
 	void run();
     void Undo();
     void save();
 	board load();
-	void help();
+//	void help();
 	bool GameOver();
+	void setScore(int i)
+	{
+		Score = i;
+	}
 };
 
