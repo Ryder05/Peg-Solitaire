@@ -3,7 +3,130 @@
 #include <fstream>
 #include <iomanip>
 #include <direct.h>
-//Game::Game(board b):b(){}
+#define RED     "\033[31m"			  /* Red */
+#define YELLOW  "\033[33m"            /* Bold Yellow */
+void end()
+{
+	cout <<RED<< R"(         .            )        )
+                  (  (|              .
+              )   )\/ ( ( (
+      *  (   ((  /     ))\))  (  )    )
+    (     \   )\(          |  ))( )  (|
+    >)     ))/   |          )/  \((  ) \
+    (     (      .        -.     V )/   )(    (
+     \   /     .   \            .       \))   ))
+       )(      (  | |   )            .    (  /
+      )(    ,'))     \ /          \( `.    )
+      (\>  ,'/__      ))            __`.  /
+     ( \   | /  ___   ( \/     ___   \ | ( (
+      \.)  |/  /   \__      __/   \   \|  ))
+     .  \. |>  \      | __ |      /   <|  /
+          )/    \____/ :..: \____/     \ <
+   )   \ (|__  .      / ;: \          __| )  (
+  ((    )\)  ~--_     --  --      _--~    /  ))
+   \    (    |  ||               ||  |   (  /
+         \.  |  ||_             _||  |  /
+           > :  |  ~V+-I_I_I-+V~  |  : (.
+          (  \:  T\   _     _   /T  : ./
+           \  :    T^T T-+-T T^T    ;<
+            \..`_       -+-       _'  )
+  )            . `--=.._____..=--'. ./                                                               
+  ____    _    __  __ _____    _____     _______ ____  
+ / ___|  / \  |  \/  | ____|  / _ \ \   / | ____|  _ \ 
+| |  _  / _ \ | |\/| |  _|   | | | \ \ / /|  _| | |_) |
+| |_| |/ ___ \| |  | | |___  | |_| |\ V / | |___|  _ < 
+ \____/_/   \_|_|  |_|_____|  \___/  \_/  |_____|_| \_\
+                                                       
+                                                     	         ___          
+                                                                 /   \\        
+                                                            /\\ | . . \\       
+                                                          ////\\|     ||       
+                                                        ////   \\ ___//\       
+                                                       ///      \\      \      
+                                                      ///       |\\      |     
+                                                     //         | \\  \   \    
+                                                     /          |  \\  \   \   
+                                                                |   \\ /   /   
+                                                                |    \/   /    
+                                                                |     \\/|     
+                                                                |      \\|     
+                                                                |       \\     
+                                                                |        |     
+                                                                |_________\
+	                           _,.-------.,_
+                            ,;~'             '~;,
+                          ,;                     ;,
+                         ;                         ;
+                        ,'                         ',
+                       ,;                           ;,
+                       ; ;      .           .      ; ;
+                       | ;   ______       ______   ; |
+                       |  `/~"     ~" . "~     "~\'  |
+                       |  ~  ,-~~~^~, | ,~^~~~-,  ~  |
+                        |   |        }:{        |   |
+                        |   l       / | \       !   |
+                        .~  (__,.--" .^. "--.,__)  ~.
+                        |     ---;' / | \ `;---     |
+                         \__.       \/^\/       .__/
+                          V| \                 / |V
+       __                  | |T~\___!___!___/~T| |                  _____
+    .-~  ~"-.              | |`IIII_I_I_I_IIII'| |               .-~     "-.
+   /         \             |  \,III I I I III,/  |              /           Y
+  Y          ;              \   `~~~~~~~~~~'    /               i           |
+  `.   _     `._              \   .       .   /               __)         .'
+    )=~         `-.._           \.    ^    ./           _..-'~         ~"<_
+ .-~                 ~`-.._       ^~~~^~~~^       _..-'~                   ~.
+/                          ~`-.._           _..-'~                           Y
+{        .~"-._                  ~`-.._ .-'~                  _..-~;         ;
+ `._   _,'     ~`-.._                  ~`-.._           _..-'~     `._    _.-
+    ~~"              ~`-.._                  ~`-.._ .-'~              ~~"~
+  .----.            _..-'  ~`-.._                  ~`-.._          .-~~~~-.
+ /      `.    _..-'~             ~`-.._                  ~`-.._   (        ".
+Y        `=--~                  _..-'  ~`-.._                  ~`-'         |
+|                         _..-'~             ~`-.._                         ;
+`._                 _..-'~                         ~`-.._            -._ _.'
+   "-.="      _..-'~                                     ~`-.._        ~`.
+    /        `.                                                ;          Y
+   Y           Y                    MHIRI MED OSAMA           Y           |
+   |           ;                                              `.          /
+   `.       _.'                                                 "-.____.-'
+     ~-----"
+
+)"<<RESET;
+	std::cin.get();
+
+}
+void won()
+{
+	cout<<YELLOW<<R"(                      . . . .
+                      ,`,`,`,`,                   __   _____  _   _      
+. . . .               `\`\`\`\;                   \ \ / / _ \| | | |     
+`\`\`\`\`,            ~|;!;!;\!                    \ V | | | | | | |     
+ ~\;\;\;\|\          (--,!!!~`!       .             | || |_| | |_| |     
+(--,\\\===~\         (--,|||~`!     ./              |_| \___/ \___/      
+ (--,\\\===~\         `,-,~,=,:. _,//                   
+  (--,\\\==~`\        ~-=~-.---|\;/J,                   
+   (--,\\\((```==.    ~'`~/       a |                   
+     (-,.\\('('(`\\.  ~'=~|     \_.  \                    __        _____  _   _ 
+        (,--(,(,(,'\\. ~'=|       \\_;>                   \ \      / / _ \| \ | |
+          (,-( ,(,(,;\\ ~=/        \                       \ \ /\ / | | | |  \| |
+          (,-/ (.(.(,;\\,/          )                       \ V  V /| |_| | |\  |
+           (,--/,;,;,;,\\         ./------.                  \_/\_/  \___/|_| \_|
+             (==,-;-'`;'         /_,----`. \                   
+     ,.--_,__.-'                    `--.  ` \                   
+    (='~-_,--/        ,       ,!,___--. \  \_)                   
+   (-/~(     |         \   ,_-         | ) /_|                   
+   (~/((\    )\._,      |-'         _,/ /                                      
+    \\))))  /   ./~.    |           \_\;                   
+ ,__/////  /   /    )  /                   
+  '===~'   |  |    (, <.
+           / /       \. \
+         _/ /          \_\
+        /_!/            >_\
+)"<<RESET;
+	std::cin.get();
+}
+bool EXIT=false;
 std::tuple<int_pair, int_pair> Game::Extract(string str)
 {
     std::string x = str.substr(0, 2);
@@ -18,30 +141,78 @@ std::tuple<int_pair, int_pair> Game::Extract(string str)
 }
 void Game::run()
 {
+	cout<<RESET;
+	EXIT=false;
     b.board_display();
     std::string str;
+	bool HELP=false;
     while (!GameOver())
     {
-        cout << BOLDYELLOW << "\t\t\t Player Command: " << RESET;
-        getline(std::cin, str);
-    	if(str=="undo")
-			Undo();
-		else if(str=="exit")
-			exit(0);
+		if (!HELP)
+		{
+			cout <<RED<< "\t\t\t\tScore: " << Score <<RESET<<"\n\n";
+			cout << BOLDYELLOW << "\t\t\t Player Command: " << RESET;
+			getline(std::cin, str);
+		}
 		else
 		{
-			std::tuple<int_pair, int_pair> tup = Extract(str);
-			if (b.move(std::get<0>(tup), std::get<1>(tup)))
+			system("cls");
+			b.board_display();
+			cout << "\tScore: " << Score << endl;
+			Help();
+			HELP=false;
+			cout <<'\n'<< BOLDYELLOW << "\t\t\t Player Command: " << RESET;
+			getline(std::cin, str);
+		}
+    	if(str=="undo"||str=="Undo")
+			Undo();
+		else if (str == "Help" || str== "help" || str == "hlp")
+		{
+			HELP =true	;
+		}
+		else if (str == "GameOver")
+		{
+			system("cls");
+			end();
+		}
+		else if (str == "GameWON")
+		{
+			system("cls");
+			won();
+		}
+			else if(str=="exit"||str=="EXIT")
+		{
+			EXIT=true;
+			Autosave();
+			return;
+		}
+		else if(str=="save"||str=="Save"||str=="SAVE")
+			save();
+    	else
+		{
+			try
 			{
-				Play.push(tup);
-				Score++;
+				std::tuple<int_pair, int_pair> tup = Extract(str);
+				if (b.move(std::get<0>(tup), std::get<1>(tup)))
+				{
+					Play.push(tup);
+					Score++;
+				}
+			}
+			catch (const std::out_of_range& oor) {
+				std::cerr << "Out of Range error: " << oor.what() << '\n';
 			}
 		}
-        system("cls");
-        b.board_display();
-    	cout<<"Score: "<<Score<<endl;
-    	save();
+		if (HELP==false)
+		{
+			system("cls");
+			b.board_display();
+		}
     }
+	if(Score==37)
+		won();
+	else
+		end();
 }
 void Game::Undo()
 {
@@ -109,21 +280,6 @@ void Game::Undo()
 	Play.pop();
 	Score--;
 }
-//void Game::save()
-//{
-////	cout<<"Enter your Game name "<<endl;
-////	getline(cin,lg);
-//	string lg="hello";
-//	FILE* pFile = fopen(R"(C:\Users\Osama\\Documents\PegSolg.txt)", "w");
-//	std::cout << "Saving Data Game...";
-//	for (int i = 0; i < 7; i++) {
-//		for (int j = 0; j < 7; j++) {
-//			if ((j == 0) && (i != 0))
-//				fprintf(pFile, " \n");
-//			fprintf(pFile, "%2d", b.P[i][j]);
-//		}
-//	}
-//	fclose(pFile);}
 void Game::save()
 {
 	string filePath;
@@ -143,13 +299,35 @@ void Game::save()
 	pFile.close();
 	std::cout << "Saving Data Game...";
 }
+void Game::Autosave()
+{
+	string filePath;
+	ofstream pFile;
+	_mkdir("C:\\Users\\Osama\\Documents\\Ensi Solitaire");
+	pFile.open("C:\\Users\\Osama\\Documents\\Ensi Solitaire\\autoSave.txt");
+	for (int i = 0; i < 7; i++) {
+		for (int j = 0; j < 7; j++) {
+			if ((j == 0) && (i != 0))
+				pFile << " \n";
+			pFile << setw(2) << b.P[i][j];
+		}
+	}
+	pFile.close();
+}
 board Game::load()
 {
 	string filePath;
-	cout << "Enter your Game name to load the game " << endl;
+	cout << "\n\n\n\t\t\tEnter your Game name to load the game :";
 	getline(cin, filePath);
 	filePath = "C:\\Users\\Osama\\Documents\\Ensi Solitaire\\" + filePath + ".txt";
+	system("cls");
 	return board(filePath);
+}
+board Game::Autoload()
+{
+
+	return board("C:\\Users\\Osama\\Documents\\Ensi Solitaire\\autoSave.txt");
+
 }
 bool Game::GameOver()
 {
@@ -169,4 +347,24 @@ bool Game::GameOver()
 		}
 	}
 	return sp.empty();
+}
+void Game::Help()
+{
+	set<pair<int, int>> sp;
+	for (int i = 0; i < 7; i++)
+	{
+		for (int j = 0; j < 7; j++)
+		{
+			if (b.P[i][j] == 1)
+			{
+				auto vm = b.valid_movs(std::make_pair(i + 1, j + 1));
+				for (auto x : vm)
+				{
+					std::cout <<"\t\t\t\t"<<YELLOW<< '(' << i+1  << ',' << char(j +  65) << ')' << "==========>" <<
+						'(' << x.first << ',' << char(x.second + 64) << ')' <<RESET<< std::endl;
+				}
+			}
+		}
+	}
+	cout<<RESET;
 }

@@ -1,19 +1,10 @@
 ﻿#include <iostream>
 #include <string>
 #include "Game.h"
-void end()
-{
-	cout<<R"(                                                       
-  ____    _    __  __ _____    _____     _______ ____  
- / ___|  / \  |  \/  | ____|  / _ \ \   / | ____|  _ \ 
-| |  _  / _ \ | |\/| |  _|   | | | \ \ / /|  _| | |_) |
-| |_| |/ ___ \| |  | | |___  | |_| |\ V / | |___|  _ < 
- \____/_/   \_|_|  |_|_____|  \___/  \_/  |_____|_| \_\
-                                                       )";
-}
+
 void header()
 {
-	//system("color A");
+	system("color A");
 
 	cout<<R"( _       __     __                             ______          
 | |     / ___  / _________  ____ ___  ___     /_  ______     _ 
@@ -36,10 +27,12 @@ void header()
 }
 void displayMainMenu()
 {
-	cout<<"\n\n";
+	cout << "\n\n";
+	cout << "\t\t\t\t\tContinue Game:(c)\n" << endl;
 	cout << "\t\t\t\t\tNew Game:(n)\n" << endl;
 	cout << "\t\t\t\t\tLoad Game:(l)\n" << endl;
 	cout << "\t\t\t\t\tHow to Play:(h)\n" << endl;
+	cout << "\t\t\t\t\tExit Game(e)\n" << endl;
 }
 void help()
 {
@@ -49,6 +42,7 @@ void help()
 }
 int main()
 {
+	extern bool EXIT;
 	header();
 	displayMainMenu();
 	string cmd;
@@ -61,7 +55,28 @@ int main()
 			system("cls");
 			Game game;
 			game.run();
+			if (EXIT == true)
+			{
+				system("cls");
+				main();
+			}	
 			B = false;
+		}
+		else if(cmd=="c")
+		{
+	
+			system("cls");
+			Game game;
+			game.b = game.Autoload();
+			game.setScore(game.b.getScore());
+			game.run();
+			if (EXIT == true)
+			{
+				cout << "FUK YESS";
+				main();
+				//EXIT = false;
+			}
+			B=false;
 		}
 		else if (cmd == "l")
 		{
@@ -70,6 +85,12 @@ int main()
 			game.b = game.load();
 			game.setScore(game.b.getScore());
 			game.run();
+			if (EXIT == true)
+			{
+				system("cls");
+				main();
+			}
+			B=false;
 		}
 		else if (cmd == "h")
 		{
@@ -79,8 +100,9 @@ int main()
 		else
 		{
 			system("cls");
+			header();
 			displayMainMenu();
-			cout << BOLDYELLOW << "\t\tInvalid Command ! Try again..." << endl << RESET;
+			cout << BOLDYELLOW << "\t\tInvalid Command ! Try again..." << endl /*<< RESET*/;
 		}
 	}
 }

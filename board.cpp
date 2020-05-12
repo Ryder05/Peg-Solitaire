@@ -10,8 +10,6 @@
 
 board::board(std::string filepath): P{0}, T{nullptr}
 {
-	//const char* cstr = filepath.c_str();
-	//FILE* pFile = fopen(filepath , "r");
 	std::fstream pFile(filepath);
 	/*if (pFile == nullptr)
 	{
@@ -24,13 +22,10 @@ board::board(std::string filepath): P{0}, T{nullptr}
 	int score=0;
 	char c;
 	while (!pFile.eof()) {
-	//	str += static_cast<char>(fgetc(pFile));
-		//str+=dynamic_cast<char>(pFile.get(c));
 		pFile.get(c);
 		str+= static_cast<char>(c);
 		pFile.get(c);
 		str+=c;
-		//str += static_cast<char>(fgetc(pFile));
 		if (str == "-1")
 		{
 			v.push_back(-1);
@@ -105,7 +100,8 @@ int board::getScore()
 				n++;
 		}
 	}
-	return n--;
+	n--;
+	return n;
 }
 void board::board_display()
 {

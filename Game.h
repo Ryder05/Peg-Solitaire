@@ -15,14 +15,18 @@ class Game
 	friend class board;
     int Score=0;
 public:
+	static bool GameRunning;
 	board b;
 	std::tuple<int_pair, int_pair> Extract(string str);
 	void run();
     void Undo();
     void save();
+    void Autosave();
 	board load();
-//	void help();
+	board Autoload();
 	bool GameOver();
+	void Help();
+
 	void setScore(int i)
 	{
 		Score = i;
