@@ -8,7 +8,7 @@
 #define YELLOW  "\033[33m"            /* Bold Yellow */
 void end()
 {
-	cout <<RED<< R"(         .            )        )
+	cout << RED << R"(         .            )        )
                   (  (|              .
               )   )\/ ( ( (
       *  (   ((  /     ))\))  (  )    )
@@ -39,13 +39,13 @@ void end()
  \____/_/   \_|_|  |_|_____|  \___/  \_/  |_____|_| \_\
                                                        
  
-)"<<RESET;
+)" << RESET;
 	std::cin.get();
 
 }
 void won()
 {
-	cout<<YELLOW<<R"(                      . . . .
+	cout << YELLOW << R"(                      . . . .
                       ,`,`,`,`,                   __   _____  _   _      
 . . . .               `\`\`\`\;                   \ \ / / _ \| | | |     
 `\`\`\`\`,            ~|;!;!;\!                    \ V | | | | | | |     
@@ -70,10 +70,10 @@ void won()
            / /       \. \
          _/ /          \_\
         /_!/            >_\
-)"<<RESET;
+)" << RESET;
 	std::cin.get();
 }
-bool EXIT=false;
+bool EXIT = false;
 
 LPSTR desktop_directory() {
 	static char path[10];
@@ -82,29 +82,37 @@ LPSTR desktop_directory() {
 }
 std::tuple<int_pair, int_pair> Game::Extract(string str)
 {
-    std::string x = str.substr(0, 2);
-    std::string y = str.substr(6, 2);
-    char x1 = x[0];
-    char x2 = x[1];
-    char y1 = y[0];
-    char y2 = y[1];
-    int_pair ip1 = std::make_pair((int)x1 - '0', (int)(x2 - 96));
-    int_pair ip2 = std::make_pair((int)y1 - '0', (int)(y2 - 96));
-    return std::make_tuple(ip1, ip2);
+	std::string x = str.substr(0, 2);
+	std::string y = str.substr(6, 2);
+	char x1 = x[0];
+	char x2 = x[1];
+	char y1 = y[0];
+	char y2 = y[1];
+	int_pair ip1 = std::make_pair((int)x1 - '0', (int)(x2 - 96));
+	int_pair ip2 = std::make_pair((int)y1 - '0', (int)(y2 - 96));
+	return std::make_tuple(ip1, ip2);
 }
 void Game::run()
 {
-	cout<<RESET;
-	EXIT=false;
-    b.board_display();
-    std::string str;
-	bool HELP=false;
-    while (!GameOver())
-    {
+	cout << RESET;
+	EXIT = false;
+	b.board_display();
+	std::string str;
+	bool HELP = false;
+	while (!GameOver())
+	{
 		if (!HELP)
 		{
-			cout <<RED<< "\t\t\t\tScore: " << Score <<RESET<<"\n\n";
+			cout << RED << "\t\t\t\tScore: " << Score << RESET << "\n\n";
+			cout << '\n' << "\033[32m" << "To make a move ,you have to write the position a peg 'to' the position you want to make the move to ." << endl;
+			cout << '\n' << "\033[32m" << "For example : 4f to 4d ." << endl;
+			cout << '\n' << "\033[32m" << "Writing 'undo' will return you to the previous move." << endl;
+			cout << '\n' << "\033[32m" << "Writing 'save' will save the game ." << endl;
+			cout << '\n' << "\033[32m" << "Writing 'help' will show you the possible moves of every peg." << endl;
+			cout << '\n' << "\033[32m" << "Writing 'exit' will return you to the main menu." << endl;
+			cout << '\n' << endl;
 			cout << BOLDYELLOW << "\t\t\t Player Command: " << RESET;
+			
 			getline(std::cin, str);
 		}
 		else
@@ -112,16 +120,20 @@ void Game::run()
 			system("cls");
 			b.board_display();
 			cout << "\tScore: " << Score << endl;
+			
 			Help();
-			HELP=false;
-			cout <<'\n'<< BOLDYELLOW << "\t\t\t Player Command: " << RESET;
+			HELP = false;
+			cout << '\n' << BOLDYELLOW << "\t\t\t Player Command: " << RESET;
+			
 			getline(std::cin, str);
+
+			
 		}
-    	if(str=="undo"||str=="Undo")
+		if (str == "undo" || str == "Undo")
 			Undo();
-		else if (str == "Help" || str== "help" || str == "hlp")
+		else if (str == "Help" || str == "help" || str == "hlp")
 		{
-			HELP =true	;
+			HELP = true;
 		}
 		else if (str == "GameOver")
 		{
@@ -133,16 +145,16 @@ void Game::run()
 			system("cls");
 			won();
 		}
-			else if(str=="exit"||str=="EXIT")
+		else if (str == "exit" || str == "EXIT")
 		{
-				system("cls");
-			EXIT=true;
+			system("cls");
+			EXIT = true;
 			Autosave();
 			return;
 		}
-		else if(str=="save"||str=="Save"||str=="SAVE")
+		else if (str == "save" || str == "Save" || str == "SAVE")
 			save();
-    	else
+		else
 		{
 			try
 			{
@@ -157,27 +169,27 @@ void Game::run()
 				std::cerr << "Out of Range error: " << oor.what() << '\n';
 			}
 		}
-		if (HELP==false)
+		if (HELP == false)
 		{
 			system("cls");
 			b.board_display();
 		}
-    }
-	if(Score==37)
+	}
+	if (Score == 37)
 		won();
 	else
 		end();
 }
 void Game::Undo()
 {
-	if(Play.empty()==true)
+	if (Play.empty() == true)
 	{
-		cout<<"Invalid Command"<<endl;
+		cout << "Invalid Command" << endl;
 		return;
 	}
-	auto x=Play.top();
-	auto f=get<0>(x);
-	auto s=get<1>(x);
+	auto x = Play.top();
+	auto f = get<0>(x);
+	auto s = get<1>(x);
 	int dirx = 0;
 	int diry = 0;
 	int tmpx;
@@ -230,7 +242,7 @@ void Game::Undo()
 
 	b.T[s.first - 1][s.second - 1] = nullptr;
 	b.T[s.first - 1 + dirx][s.second + diry - 1] = new piece(std::make_pair(s.first - 1 + dirx, s.second + diry - 1));
-	b.T[f.first - 1][f.second - 1] = new piece(std::make_pair(f.first - 1,f.second - 1));
+	b.T[f.first - 1][f.second - 1] = new piece(std::make_pair(f.first - 1, f.second - 1));
 	Play.pop();
 	Score--;
 }
@@ -238,18 +250,18 @@ void Game::save()
 {
 	string filePath;
 	ofstream pFile;
-	cout<<"\t\tEnter your Game name: ";
-	getline(cin,filePath);
-	string str1=string(desktop_directory())+"\\Documents\\Ensi_Solitaire";
+	cout << "\t\tEnter your Game name: ";
+	getline(cin, filePath);
+	string str1 = string(desktop_directory()) + "\\Documents\\Ensi_Solitaire";
 	const char* c = str1.c_str();
 	_mkdir(c);
-	filePath=str1+"\\"+ filePath +".txt";
+	filePath = str1 + "\\" + filePath + ".txt";
 	pFile.open(filePath);
 	for (int i = 0; i < 7; i++) {
 		for (int j = 0; j < 7; j++) {
 			if ((j == 0) && (i != 0))
-				pFile<<" \n";
-			pFile<<setw(2)<< b.P[i][j];
+				pFile << " \n";
+			pFile << setw(2) << b.P[i][j];
 		}
 	}
 	pFile.close();
@@ -262,7 +274,7 @@ void Game::Autosave()
 	string str1 = string(desktop_directory()) + "\\Documents\\Ensi_Solitaire";
 	const char* c = str1.c_str();
 	_mkdir(c);
-	pFile.open(str1+"\\autoSave.txt");
+	pFile.open(str1 + "\\autoSave.txt");
 	for (int i = 0; i < 7; i++) {
 		for (int j = 0; j < 7; j++) {
 			if ((j == 0) && (i != 0))
@@ -280,13 +292,13 @@ board Game::load()
 	getline(cin, filePath);
 	string str1 = string(desktop_directory()) + "\\Documents\\Ensi_Solitaire\\";
 	filePath = str1 + filePath + ".txt";
-	system("cls");	
-		return board(filePath);
+	system("cls");
+	return board(filePath);
 }
 board Game::Autoload()
 {
 	string str1 = string(desktop_directory()) + "\\Documents\\Ensi_Solitaire";
-	return board(str1+"\\autoSave.txt");
+	return board(str1 + "\\autoSave.txt");
 
 }
 bool Game::GameOver()
@@ -320,11 +332,11 @@ void Game::Help()
 				auto vm = b.valid_movs(std::make_pair(i + 1, j + 1));
 				for (auto x : vm)
 				{
-					std::cout <<"\t\t\t\t"<<YELLOW<< '(' << i+1  << ',' << char(j +  65) << ')' << "==========>" <<
-						'(' << x.first << ',' << char(x.second + 64) << ')' <<RESET<< std::endl;
+					std::cout << "\t\t\t\t" << YELLOW << '(' << i + 1 << ',' << char(j + 65) << ')' << "==========>" <<
+						'(' << x.first << ',' << char(x.second + 64) << ')' << RESET << std::endl;
 				}
 			}
 		}
 	}
-	cout<<RESET;
+	cout << RESET;
 }
