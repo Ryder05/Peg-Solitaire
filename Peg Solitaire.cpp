@@ -62,9 +62,10 @@ int main()
 			}	
 			B = false;
 		}
+		else if(cmd=="e")
+			exit(0);
 		else if(cmd=="c")
 		{
-	
 			system("cls");
 			Game game;
 			game.b = game.Autoload();
@@ -72,9 +73,7 @@ int main()
 			game.run();
 			if (EXIT == true)
 			{
-				cout << "FUK YESS";
 				main();
-				//EXIT = false;
 			}
 			B=false;
 		}
@@ -96,6 +95,7 @@ int main()
 		{
 			system("cls");
 			help();
+			cin.get();
 		}
 		else
 		{

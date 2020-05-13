@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iomanip>
 #include <direct.h>
+#include <shlobj.h>
 #define RED     "\033[31m"			  /* Red */
 #define YELLOW  "\033[33m"            /* Bold Yellow */
 void end()
@@ -37,61 +38,7 @@ void end()
 | |_| |/ ___ \| |  | | |___  | |_| |\ V / | |___|  _ < 
  \____/_/   \_|_|  |_|_____|  \___/  \_/  |_____|_| \_\
                                                        
-                                                     	         ___          
-                                                                 /   \\        
-                                                            /\\ | . . \\       
-                                                          ////\\|     ||       
-                                                        ////   \\ ___//\       
-                                                       ///      \\      \      
-                                                      ///       |\\      |     
-                                                     //         | \\  \   \    
-                                                     /          |  \\  \   \   
-                                                                |   \\ /   /   
-                                                                |    \/   /    
-                                                                |     \\/|     
-                                                                |      \\|     
-                                                                |       \\     
-                                                                |        |     
-                                                                |_________\
-	                           _,.-------.,_
-                            ,;~'             '~;,
-                          ,;                     ;,
-                         ;                         ;
-                        ,'                         ',
-                       ,;                           ;,
-                       ; ;      .           .      ; ;
-                       | ;   ______       ______   ; |
-                       |  `/~"     ~" . "~     "~\'  |
-                       |  ~  ,-~~~^~, | ,~^~~~-,  ~  |
-                        |   |        }:{        |   |
-                        |   l       / | \       !   |
-                        .~  (__,.--" .^. "--.,__)  ~.
-                        |     ---;' / | \ `;---     |
-                         \__.       \/^\/       .__/
-                          V| \                 / |V
-       __                  | |T~\___!___!___/~T| |                  _____
-    .-~  ~"-.              | |`IIII_I_I_I_IIII'| |               .-~     "-.
-   /         \             |  \,III I I I III,/  |              /           Y
-  Y          ;              \   `~~~~~~~~~~'    /               i           |
-  `.   _     `._              \   .       .   /               __)         .'
-    )=~         `-.._           \.    ^    ./           _..-'~         ~"<_
- .-~                 ~`-.._       ^~~~^~~~^       _..-'~                   ~.
-/                          ~`-.._           _..-'~                           Y
-{        .~"-._                  ~`-.._ .-'~                  _..-~;         ;
- `._   _,'     ~`-.._                  ~`-.._           _..-'~     `._    _.-
-    ~~"              ~`-.._                  ~`-.._ .-'~              ~~"~
-  .----.            _..-'  ~`-.._                  ~`-.._          .-~~~~-.
- /      `.    _..-'~             ~`-.._                  ~`-.._   (        ".
-Y        `=--~                  _..-'  ~`-.._                  ~`-'         |
-|                         _..-'~             ~`-.._                         ;
-`._                 _..-'~                         ~`-.._            -._ _.'
-   "-.="      _..-'~                                     ~`-.._        ~`.
-    /        `.                                                ;          Y
-   Y           Y                    MHIRI MED OSAMA           Y           |
-   |           ;                                              `.          /
-   `.       _.'                                                 "-.____.-'
-     ~-----"
-
+ 
 )"<<RESET;
 	std::cin.get();
 
@@ -127,6 +74,12 @@ void won()
 	std::cin.get();
 }
 bool EXIT=false;
+
+LPSTR desktop_directory() {
+	static char path[10];
+	if (SHGetSpecialFolderPathA(HWND_DESKTOP, path, CSIDL_PROFILE, FALSE)) return path;
+	else return NULL;
+}
 std::tuple<int_pair, int_pair> Game::Extract(string str)
 {
     std::string x = str.substr(0, 2);
@@ -175,13 +128,14 @@ void Game::run()
 			system("cls");
 			end();
 		}
-		else if (str == "GameWON")
+		else if (str == "GameWon")
 		{
 			system("cls");
 			won();
 		}
 			else if(str=="exit"||str=="EXIT")
 		{
+				system("cls");
 			EXIT=true;
 			Autosave();
 			return;
@@ -284,10 +238,12 @@ void Game::save()
 {
 	string filePath;
 	ofstream pFile;
-	cout<<"Enter your Game name "<<endl;
+	cout<<"\t\tEnter your Game name: ";
 	getline(cin,filePath);
-	_mkdir("C:\\Users\\Osama\\Documents\\Ensi Solitaire");
-	filePath="C:\\Users\\Osama\\Documents\\Ensi Solitaire\\"+ filePath +".txt";
+	string str1=string(desktop_directory())+"\\Documents\\Ensi_Solitaire";
+	const char* c = str1.c_str();
+	_mkdir(c);
+	filePath=str1+"\\"+ filePath +".txt";
 	pFile.open(filePath);
 	for (int i = 0; i < 7; i++) {
 		for (int j = 0; j < 7; j++) {
@@ -303,8 +259,10 @@ void Game::Autosave()
 {
 	string filePath;
 	ofstream pFile;
-	_mkdir("C:\\Users\\Osama\\Documents\\Ensi Solitaire");
-	pFile.open("C:\\Users\\Osama\\Documents\\Ensi Solitaire\\autoSave.txt");
+	string str1 = string(desktop_directory()) + "\\Documents\\Ensi_Solitaire";
+	const char* c = str1.c_str();
+	_mkdir(c);
+	pFile.open(str1+"\\autoSave.txt");
 	for (int i = 0; i < 7; i++) {
 		for (int j = 0; j < 7; j++) {
 			if ((j == 0) && (i != 0))
@@ -316,17 +274,19 @@ void Game::Autosave()
 }
 board Game::load()
 {
+	FILE* file;
 	string filePath;
 	cout << "\n\n\n\t\t\tEnter your Game name to load the game :";
 	getline(cin, filePath);
-	filePath = "C:\\Users\\Osama\\Documents\\Ensi Solitaire\\" + filePath + ".txt";
-	system("cls");
-	return board(filePath);
+	string str1 = string(desktop_directory()) + "\\Documents\\Ensi_Solitaire\\";
+	filePath = str1 + filePath + ".txt";
+	system("cls");	
+		return board(filePath);
 }
 board Game::Autoload()
 {
-
-	return board("C:\\Users\\Osama\\Documents\\Ensi Solitaire\\autoSave.txt");
+	string str1 = string(desktop_directory()) + "\\Documents\\Ensi_Solitaire";
+	return board(str1+"\\autoSave.txt");
 
 }
 bool Game::GameOver()

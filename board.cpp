@@ -7,7 +7,6 @@
 #include <ostream>
 #include <vector>
 #pragma warning (disable : 4996)
-
 board::board(std::string filepath): P{0}, T{nullptr}
 {
 	std::fstream pFile(filepath);
@@ -48,7 +47,6 @@ board::board(std::string filepath): P{0}, T{nullptr}
 			break;
 	}
 	score--;
-	//fclose(pFile);
 	pFile.close();
 	for (int i = 0; i < 7; i++)
 	{
